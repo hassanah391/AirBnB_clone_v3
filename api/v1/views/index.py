@@ -9,6 +9,15 @@ from api.v1.views import app_views
 from flask import jsonify
 from models import storage
 
+hbnbText = {
+    "amenities": "Amenity",
+    "cities": "City",
+    "places": "Place",
+    "reviews": "Review",
+    "states": "State",
+    "users": "User"
+}
+
 
 @app_views.route("/status", strict_slashes=False)
 def status():
@@ -21,16 +30,13 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route("/stats", methods=['GET'])
-def number_of_objs():
-    """retrieves the number of each objects by type"""
-    data = {
-        "amenities": storage.count("Amenity"),
-        "cities": storage.count("City"),
-        "places": storage.count("Place"),
-        "reviews": storage.count("Review"),
-        "states": storage.count("State"),
-        "users": storage.count("User")
-    }
+@app_views.route('/stats', strict_slashes=False)
+def hbnbStats():
+    """hbnbStats"""
+    return_dict = {}
+    for key, value in hbnbText.items():
+        return_dict[key] = storage.count(value)
+    return jsonify(return_dict)
 
-    return jsonify(data)
+if __name__ == "__main__":
+    pass
