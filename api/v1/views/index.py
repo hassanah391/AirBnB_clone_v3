@@ -1,13 +1,9 @@
 #!/usr/bin/python3
-"""
-Index views for the API.
-
-This module contains the basic routes for the API,
-including status and other general information endpoints.
-"""
+"""index.py to connect to API"""
 from api.v1.views import app_views
-from flask import jsonify
+from flask import Flask, Blueprint, jsonify
 from models import storage
+
 
 hbnbText = {
     "amenities": "Amenity",
@@ -19,8 +15,8 @@ hbnbText = {
 }
 
 
-@app_views.route("/status", strict_slashes=False)
-def status():
+@app_views.route('/status', strict_slashes=False)
+def hbnbStatus():
     """
     Return the API status.
 
@@ -32,7 +28,7 @@ def status():
 
 @app_views.route('/stats', strict_slashes=False)
 def hbnbStats():
-    """hbnbStats"""
+    """retrieves the number of each objects by type"""
     return_dict = {}
     for key, value in hbnbText.items():
         return_dict[key] = storage.count(value)
