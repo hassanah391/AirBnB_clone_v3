@@ -45,7 +45,7 @@ def create_city(state_id):
     """Creates new city"""
     state = storage.get(State, state_id)
     if state is None:
-        abort(404)  
+        abort(404)
     if request.content_type != 'application/json':
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
