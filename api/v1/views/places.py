@@ -67,18 +67,18 @@ def create_place(city_id):
     return make_response(jsonify(place.to_dict()), 201)
 
 
-@app_views.route('/places/<string:place_id>', methods=['PUT'],
+@app_views.route('/places/<place_id>', methods=['PUT'],
                  strict_slashes=False)
 def put_place(place_id):
-    """Updates a place obj if exist"""
-    place = storage.get("Place", place_id)
+    """Updates a place object if it exists"""
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    if not request.get_json():
+    if not request.is_json:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    for attr, val in request.get_json().items():
-        if attr not in ['id', 'user_id', 'city_id', 'created_at',
-                        'updated_at']:
-            setattr(place, attr, val)
+    data = request.get_json()
+    for key, value in data.items():
+        if key not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
+            setattr(place, key, value)
     place.save()
-    return jsonify(place.to_dict())
+    return jsonify(place.to_dict()), 200
