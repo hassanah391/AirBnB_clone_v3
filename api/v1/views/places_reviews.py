@@ -1,6 +1,6 @@
 # #!/usr/bin/python3
 # """reviews.py"""
-# # there are some bugs in this page
+# # # there are some bugs in this page.................................................
 # from api.v1.views import app_views
 # from flask import abort, jsonify, make_response, request
 # from models import storage
