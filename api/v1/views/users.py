@@ -43,7 +43,8 @@ def post_user():
     """create a new user"""
     if request.content_type != 'application/json':
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    if 'name' not in request.get_json():
+    if 'first_name' not in request.get_json() or \
+            'last_name' not in request.get_json():
         return make_response(jsonify({'error': 'Missing name'}), 400)
     user = User(**request.get_json())
     user.save()
