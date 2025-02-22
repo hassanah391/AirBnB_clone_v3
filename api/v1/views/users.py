@@ -46,6 +46,10 @@ def post_user():
     if 'first_name' not in request.get_json() or \
             'last_name' not in request.get_json():
         return make_response(jsonify({'error': 'Missing name'}), 400)
+    if 'email' not in request.get_json():
+        return make_response(jsonify({'error': 'Missing email'}), 400)
+    if 'passwoed' not in request.get_json():
+        return make_response(jsonify({'error': 'Missing passowrd'}), 400)
     user = User(**request.get_json())
     user.save()
     return make_response(jsonify(user.to_dict()), 201)
