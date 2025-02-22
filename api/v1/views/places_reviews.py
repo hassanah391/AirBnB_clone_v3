@@ -12,20 +12,18 @@ from models.place import Place
 @app_views.route('/places/<string:place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
 def get_reviews(place_id):
-    """get reviews for a specified place"""
+    """Get all reviews for a specified place."""
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
-    reviews = []
-    for review in place.reviews:
-        reviews.append(review.to_dict())
+    reviews = [review.to_dict() for review in place.reviews]
     return jsonify(reviews)
 
 
 @app_views.route('/reviews/<string:review_id>', methods=['GET'],
                  strict_slashes=False)
 def get_review(review_id):
-    """get review information for specified review"""
+    """Get a review based on its ID."""
     review = storage.get("Review", review_id)
     if review is None:
         abort(404)
@@ -35,19 +33,19 @@ def get_review(review_id):
 @app_views.route('/reviews/<string:review_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_review(review_id):
-    """deletes a review based on its review_id"""
+    """Delete a review based on its ID."""
     review = storage.get("Review", review_id)
     if review is None:
         abort(404)
     review.delete()
     storage.save()
-    return (jsonify({}))
+    return jsonify({})
 
 
 @app_views.route('/places/<string:place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
 def post_review(place_id):
-    """create a new review"""
+    """Create a new review for a specified place."""
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
@@ -70,15 +68,14 @@ def post_review(place_id):
 @app_views.route('/reviews/<string:review_id>', methods=['PUT'],
                  strict_slashes=False)
 def put_review(review_id):
-    """update a review"""
+    """Update a review."""
     review = storage.get("Review", review_id)
     if review is None:
         abort(404)
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for attr, val in request.get_json().items():
-        if attr not in ['id', 'user_id', 'place_id',
-                        'created_at', 'updated_at']:
+        if attr not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
             setattr(review, attr, val)
     review.save()
     return jsonify(review.to_dict())
