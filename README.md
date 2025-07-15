@@ -12,6 +12,7 @@ The console is the first segment of the AirBnB project at Holberton School that 
 * [Environment](#environment)
 * [Installation](#installation)
 * [File Descriptions](#file-descriptions)
+* [RESTful API Documentation](#restful-api-documentation)
 * [Usage](#usage)
 * [Examples of use](#examples-of-use)
 * [Bugs](#bugs)
@@ -126,6 +127,77 @@ TestBaseModel class:
 * `def test_user_module_docstring(self)` - Test for the user.py module docstring
 * `def test_user_class_docstring(self)` - Test for the User class docstring
 
+## RESTful API Documentation
+
+The project includes a RESTful API built with Flask, providing programmatic access to AirBnB resources. The API follows standard REST conventions and supports JSON input/output.
+
+### Running the API
+
+1. Navigate to the project root directory.
+2. Run the API server:
+   ```bash
+   HBNB_API_HOST=0.0.0.0 HBNB_API_PORT=5000 python3 -m api.v1.app
+   ```
+   The API will be available at `http://0.0.0.0:5000/api/v1/` by default.
+
+### Endpoints
+
+#### General
+- `GET /api/v1/status` — Health check. Returns `{ "status": "OK" }`.
+- `GET /api/v1/stats` — Returns the count of each object type (users, places, etc).
+
+#### States
+- `GET /api/v1/states` — List all states.
+- `GET /api/v1/states/<state_id>` — Retrieve a state by ID.
+- `POST /api/v1/states/` — Create a new state. JSON body: `{ "name": "StateName" }`.
+- `PUT /api/v1/states/<state_id>` — Update a state. JSON body: `{ "name": "NewName" }`.
+- `DELETE /api/v1/states/<state_id>` — Delete a state by ID.
+
+#### Cities
+- `GET /api/v1/states/<state_id>/cities` — List all cities in a state.
+- `GET /api/v1/cities/<city_id>` — Retrieve a city by ID.
+- `POST /api/v1/states/<state_id>/cities` — Create a new city in a state. JSON body: `{ "name": "CityName" }`.
+- `PUT /api/v1/cities/<city_id>` — Update a city. JSON body: `{ "name": "NewName" }`.
+- `DELETE /api/v1/cities/<city_id>` — Delete a city by ID.
+
+#### Amenities
+- `GET /api/v1/amenities` — List all amenities.
+- `GET /api/v1/amenities/<amenity_id>` — Retrieve an amenity by ID.
+- `POST /api/v1/amenities/` — Create a new amenity. JSON body: `{ "name": "AmenityName" }`.
+- `PUT /api/v1/amenities/<amenity_id>` — Update an amenity. JSON body: `{ "name": "NewName" }`.
+- `DELETE /api/v1/amenities/<amenity_id>` — Delete an amenity by ID.
+
+#### Users
+- `GET /api/v1/users` — List all users.
+- `GET /api/v1/users/<user_id>` — Retrieve a user by ID.
+- `POST /api/v1/users/` — Create a new user. JSON body: `{ "email": "email", "password": "pwd", "first_name": "First", "last_name": "Last" }`.
+- `PUT /api/v1/users/<user_id>` — Update a user. JSON body: `{ "first_name": "NewName" }`.
+- `DELETE /api/v1/users/<user_id>` — Delete a user by ID.
+
+#### Places
+- `GET /api/v1/cities/<city_id>/places` — List all places in a city.
+- `GET /api/v1/places/<place_id>` — Retrieve a place by ID.
+- `POST /api/v1/cities/<city_id>/places` — Create a new place in a city. JSON body must include `user_id` and `name`.
+- `PUT /api/v1/places/<place_id>` — Update a place.
+- `DELETE /api/v1/places/<place_id>` — Delete a place by ID.
+
+#### Reviews (currently commented out, see code for details)
+- `GET /api/v1/places/<place_id>/reviews` — List all reviews for a place.
+- `GET /api/v1/reviews/<review_id>` — Retrieve a review by ID.
+- `POST /api/v1/places/<place_id>/reviews` — Create a new review for a place. JSON body must include `user_id` and `text`.
+- `PUT /api/v1/reviews/<review_id>` — Update a review.
+- `DELETE /api/v1/reviews/<review_id>` — Delete a review by ID.
+
+### Example: Health Check
+```bash
+curl http://0.0.0.0:5000/api/v1/status
+# Response: { "status": "OK" }
+```
+
+### Notes
+- All endpoints return JSON responses.
+- For POST/PUT, set `Content-Type: application/json`.
+- 404 errors return `{ "error": "Not found" }`.
 
 ## Examples of use
 ```
